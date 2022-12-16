@@ -1,7 +1,7 @@
 const path = require('path')
 const express = require('express')
 const router = express.Router()
-const {protect} = require('../middleware/auth')
+const {protect} = require('../middleware/Auth')
 const {getNews, createNews, updateNews, deleteNews, getAllNews} = require('../controller/news')
 const multer = require('multer')
 
