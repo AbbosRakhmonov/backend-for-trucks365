@@ -1,4 +1,3 @@
-// trucks365 backend server
 const path = require('path')
 const express = require('express')
 const dotenv = require('dotenv')
@@ -13,12 +12,10 @@ const connectDB = require('./config/db')
 dotenv.config({path: './config/config.env'})
 
 const app = express()
+app.use(cors())
 
 // Body parser
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-
-// multer
 
 // Route files
 const Auth = require('./routes/auth')
@@ -44,11 +41,6 @@ app.use(fileUpload({
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
-
-app.use(cors({
-    origin: ['http://127.0.0.1:5500'],
-    credentials: true
-}))
 
 // Error handler
 app.use(errorHandler)
