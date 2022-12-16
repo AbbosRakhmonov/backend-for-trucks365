@@ -54,7 +54,9 @@ app.use(helmet())
 app.use(xss())
 
 // Enable CORS
-app.use(cors())
+app.use(cors({
+    origin: '*'
+}))
 
 // Error handler
 app.use(errorHandler)
