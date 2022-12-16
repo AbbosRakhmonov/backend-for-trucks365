@@ -1,4 +1,4 @@
-const ErrorResponse = require('../utils/errorResponse')
+const ErrorResponse = require('../utils/ErrorResponse')
 const asyncHandler = require('../middleware/AsyncHandler')
 const News = require('../models/News')
 const path = require('path')
