@@ -5,8 +5,6 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 const colors = require('colors')
 const fileUpload = require('express-fileupload')
-const helmet = require('helmet')
-const xss = require('xss-clean')
 const cors = require('cors')
 const errorHandler = require('./middleware/ErrorHandler')
 const connectDB = require('./config/db')
@@ -47,17 +45,9 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'))
 }
 
-// Set security headers
-app.use(helmet())
-
-// Prevent XSS attacks
-app.use(xss())
-
-// Enable CORS
 app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'X-Requested-With', 'Accept']
+    origin: ['http://127.0.0.1:5500'],
+    credentials: true
 }))
 
 // Error handler
