@@ -1,6 +1,7 @@
 const ErrorResponse = require('../utils/ErrorResponse')
 const asyncHandler = require('../middleware/AsyncHandler')
 const User = require('../models/Auth')
+const jwt = require('jsonwebtoken')
 
 // @desc      Register user
 // @route     POST /api/v1/auth/register
@@ -73,7 +74,30 @@ exports.logout = asyncHandler(async (req, res, next) => {
     })
 })
 
-// Get token from model, create cookie and send response
+// check valid token
+exports.protect = asyncHandler(async (req, res, next) => {
+    let token
+
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1]
+    }
+
+    // Make sure token exists
+    if (!token) {
+        return next(new ErrorResponse('Not authorized to access this route', 401))
+    }
+
+    try {
+        // Verify token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+        req.user = await User.findById(decoded.id)
+        next()
+    } catch (e) {
+        return next(new ErrorResponse('Not authorized to access this route', 401))
+    }
+})
+
 const sendTokenResponse = (user, statusCode, res) => {
     console.log(user)
     // Create token
