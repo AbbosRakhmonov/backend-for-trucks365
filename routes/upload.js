@@ -89,18 +89,14 @@ router.get('/', (req, res) => {
 router.post('/:newsId', upload.single('file'), (req, res) => {
     const url = req.protocol + '://' + req.get('host')
     const {newsId} = req.params
-    const news = News.findById(newsId)
+    const news = News.findByIdAndUpdate(newsId, {
+        thumbnail: (url + '/' + 'api/v1/upload/file/' + req.file.filename)
+    })
 
-    if (news) {
-        res.json({
-            success: true
-        })
-    } else {
-        res.status(400).json({
-            success: false,
-            error: 'No such a news'
-        })
-    }
+    res.json({
+        success: true,
+        data: news
+    })
 })
 
 router.get('/files', (req, res) => {
