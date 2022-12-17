@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const newsSchema = new mongoose.Schema({
-    thubmnail: {
+    thumbnail: {
         type: String,
-        default: 'no-photo.jpg'
+        default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjVMQh3Pawxel1-2LVOcA-CH8KbIyEEbjaEXDOPn3TkA&s'
     },
     title: {
         type: String,
