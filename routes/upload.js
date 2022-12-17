@@ -6,6 +6,7 @@ const multer = require('multer')
 const {GridFsStorage} = require('multer-gridfs-storage')
 const router = Router()
 const News = require('../models/News')
+const asyncHandler = require('../middleware/AsyncHandler')
 
 // DB
 
@@ -86,10 +87,10 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/:newsId', upload.single('file'), (req, res) => {
+router.post('/:newsId', upload.single('file'), asyncHandler(async (req, res) => {
     const url = req.protocol + '://' + req.get('host')
     const {newsId} = req.params
-    const news = News.findByIdAndUpdate(newsId, {
+    const news = await News.findByIdAndUpdate(newsId, {
         thumbnail: (url + '/' + 'api/v1/upload/file/' + req.file.filename)
     })
 
@@ -97,7 +98,7 @@ router.post('/:newsId', upload.single('file'), (req, res) => {
         success: true,
         data: news
     })
-})
+}))
 
 router.get('/files', (req, res) => {
     gfs.find().toArray((err, files) => {
