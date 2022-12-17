@@ -19,7 +19,7 @@ exports.getAllNews = asyncHandler(async (req, res, next) => {
 // @access    Public
 exports.getNews = asyncHandler(async (req, res, next) => {
     const {id} = req.params
-    const data = await News.findById(id).select('content')
+    const data = await News.findById(id)
     res.status(200).json({
         success: true,
         data
