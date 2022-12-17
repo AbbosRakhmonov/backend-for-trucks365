@@ -30,12 +30,11 @@ exports.getNews = asyncHandler(async (req, res, next) => {
 // @route     POST /api/v1/news/
 // @access    Private
 exports.createNews = asyncHandler(async (req, res, next) => {
-    const {title, content, thubmnail} = req.body
+    const {title, content} = req.body
 
     const news = await News.create({
             title,
             content,
-            thubmnail
         }
     )
     res.status(200).json({

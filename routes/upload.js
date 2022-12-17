@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const multer = require('multer')
 const {GridFsStorage} = require('multer-gridfs-storage')
 const router = Router()
+const News = require('../models/News')
 
 // DB
 
@@ -85,12 +86,21 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/', upload.single('file'), (req, res) => {
+router.post('/:newsId', upload.single('file'), (req, res) => {
     const url = req.protocol + '://' + req.get('host')
-    res.json({
-        success: true,
-        data: (url + '/' + 'api/v1/upload/file/' + req.file.filename)
-    })
+    const {newsId} = req.params
+    const news = News.findById(newsId)
+
+    if (news) {
+        res.json({
+            success: true
+        })
+    } else {
+        res.status(400).json({
+            success: false,
+            error: 'No such a news'
+        })
+    }
 })
 
 router.get('/files', (req, res) => {
