@@ -30,31 +30,12 @@ exports.getNews = asyncHandler(async (req, res, next) => {
 // @route     POST /api/v1/news/
 // @access    Private
 exports.createNews = asyncHandler(async (req, res, next) => {
-    const url = req.protocol + '://' + req.get('host')
-    const {title, content} = req.body
-    if (!req.file) {
-        return next(new ErrorResponse(`Please upload a file`, 400))
-    }
-    const file = req.file
+    const {title, content, thubmnail} = req.body
 
-    // Make sure the image is a photo
-    if (!file.mimetype.startsWith('image')) {
-        return next(new ErrorResponse(`Please upload an image file`, 400))
-    }
-
-    // Check filesize
-    if (file.size > process.env.MAX_FILE_UPLOAD) {
-        return next(
-            new ErrorResponse(
-                `Please upload an image less than ${process.env.MAX_FILE_UPLOAD}`,
-                400
-            )
-        )
-    }
     const news = await News.create({
             title,
             content,
-            thubmnail: url + '/public/uploads/' + file.filename
+            thubmnail
         }
     )
     res.status(200).json({

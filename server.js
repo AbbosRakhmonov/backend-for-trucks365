@@ -20,6 +20,7 @@ app.use(express.json())
 // Route files
 const Auth = require('./routes/auth')
 const News = require('./routes/nws')
+const Upload = require('./routes/upload')
 
 app.get('/', (req, res) => {
     res.send('Backend Worked')
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 // Mount routers
 app.use('/api/v1/auth', Auth)
 app.use('/api/v1/news', News)
+app.use('/api/v1/upload', Upload)
 
 // Connect DB
 connectDB()
